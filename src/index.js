@@ -6,11 +6,15 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducer from './store/reducer';
+import { createStore, applyMiddleware, compose } from 'redux';
+import reducer from './store/reducers/burgerBuilder';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import thunk from 'redux-thunk';
 
-const store = createStore(reducer, composeWithDevTools());
+
+const store = createStore(reducer, composeWithDevTools(
+    applyMiddleware(thunk)
+));
 
 const app = (
     <Provider store={store}>
