@@ -6,13 +6,19 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import reducer from './store/reducers/burgerBuilder';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import burgerBuilderReducer from './store/reducers/burgerBuilder';
+import orderReducer from './store/reducers/order';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
 
 
-const store = createStore(reducer, composeWithDevTools(
+const rootReducer = combineReducers({
+    burgerBuilder: burgerBuilderReducer,
+    order: orderReducer
+});
+
+const store = createStore(rootReducer, composeWithDevTools(
     applyMiddleware(thunk)
 ));
 
