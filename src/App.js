@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 
 import Layout from './containers/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
@@ -19,21 +19,40 @@ class App extends Component {
   }
 
   render() {
+    let routes = (
+      <Switch>
+        <Route path='/auth' component={Auth}></Route>
+        <Route path='/' component={BurgerBuilder}></Route>
+        <Redirect to='/'></Redirect>
+      </Switch>
+    );
+
+    if (this.props.isAuthenitcated) {
+      routes = (
+        <Switch>
+          <Route path='/checkout' component={Checkout}></Route>
+          <Route path='/orders' component={Orders}></Route>
+          <Route path='/logout' component={Logout}></Route>
+          <Route path='/' component={BurgerBuilder}></Route>
+        </Switch>
+      );
+    }
+
     return (
       <div>
         <Layout>
-          <Switch>
-            <Route path='/checkout' component={Checkout}></Route>
-            <Route path='/orders' component={Orders}></Route>
-            <Route path='/auth' component={Auth}></Route>
-            <Route path='/logout' component={Logout}></Route>
-            <Route path='/' component={BurgerBuilder}></Route>
-          </Switch>
+          {routes}
         </Layout>
       </div >
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    isAuthenitcated: state.auth.token !== null,
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -41,4 +60,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
