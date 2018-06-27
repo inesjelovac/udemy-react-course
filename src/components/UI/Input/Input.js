@@ -31,7 +31,6 @@ const input = (props) => {
                 </select>);
             break;
         default:
-            console.log('default from sw');
             inputElement = <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} />
     }
 

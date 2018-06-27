@@ -17,7 +17,7 @@ const sideDrawer = (props) => {
     return (
         <Fragment>
             <Backdrop show={props.open} clicked={props.closed}></Backdrop>
-            <div className={attachClasses.join(' ')}>
+            <div className={attachClasses.join(' ')} onClick={props.closed}>
                 <div className={classes.Logo}><Logo></Logo></div>
                 <nav>
                     <NavigationItems isAuthenticated={props.isAuthenticated}></NavigationItems>
